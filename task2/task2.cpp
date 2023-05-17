@@ -38,9 +38,9 @@ uint64_t GetOnAndUnderLine(int64_t P, int64_t Q, int64_t r, std::optional<int64_
     uint64_t points_1_part = GetUnderLine((P - P % Q) / Q, r);
 
     uint64_t points_inverted = GetOnAndUnderLine(Q, P % Q, std::floor(static_cast<double>(P % Q) / Q * r), gcd);
-    uint64_t square = static_cast<uint64_t>((r + 1)) * static_cast<uint64_t>((std::floor(static_cast<double>(P % Q) / Q * r) + 1));
+    uint64_t area = static_cast<uint64_t>((r + 1)) * static_cast<uint64_t>((std::floor(static_cast<double>(P % Q) / Q * r) + 1));
 
-    uint64_t points_2_part = square - points_inverted;
+    uint64_t points_2_part = area - points_inverted;
 
     return points_1_part + points_2_part + points_on_line;
 }
