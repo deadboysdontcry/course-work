@@ -38,11 +38,18 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
     }
 
     const int64_t k = P / Q;
+    prev_r -= k * r;
     const int64_t A_new = B, B_new = A + B * k,
                 Q_new = P % Q, P_new = Q;
     int64_t l_new = typeToDivFunc[g](Q_new * l, Q), r_new = typeToDivFunc[g](Q_new * r, Q);
     l_new = std::min(std::max(l_new, prev_l), prev_r);
     r_new = std::min(std::max(r_new, prev_l), prev_r);
+    if (l_new == r_new) {
+        if (B_new < 0) {
+            return B_new * r + A_new * l_new;
+        }
+        return B_new * l + A_new * l_new;
+    }
     switch (g) {
         case RoundingFunction::kFloor: {
             if (B_new < 0) {
