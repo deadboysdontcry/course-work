@@ -31,24 +31,24 @@ std::ostream& operator<<(std::ostream& os, TestCase t) {
     return os;
 }
 
-int64_t MinHardSolve(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r, RoundingFunction g) {
-    int64_t min_val = std::numeric_limits<int64_t>::max();
+__int128_t MinHardSolve(__int128_t A, __int128_t B, __int128_t P, __int128_t Q, __int128_t l, __int128_t r, RoundingFunction g) {
+    __int128_t min_val = std::numeric_limits<__int128_t>::max();
     for (auto i = l; i <= r; ++i) {
-        int64_t func_value = A * i + B * typeToDivFunc[g](i * P, Q);
+        __int128_t func_value = A * i + B * typeToDivFunc[g](i * P, Q);
         min_val = std::min(min_val, func_value);
     }
     return min_val;
 }
 
-int64_t MinExpected(TestCase t) {
+__int128_t MinExpected(TestCase t) {
     return MinHardSolve(t.A, t.B, t.P, t.Q, t.l, t.r, t.g);
 }
 
-int64_t MinActual(TestCase t) {
+__int128_t MinActual(TestCase t) {
     return FMinVal(t.A, t.B, t.P, t.Q, t.l, t.r, t.g);
 }
 
-int64_t MaybeNeg(int64_t x) {
+__int128_t MaybeNeg(__int128_t x) {
     int r = rand() % 2;
     if (r) {
         return x;
@@ -71,18 +71,20 @@ bool MinCheck(TestCase t) {
     auto expected = MinExpected(t), actual = MinActual(t);
     if (expected != actual) {
         std::cout << t << std::endl;
-        std::cout << expected << " vs " << actual << std::endl;
+        std::cout << static_cast<long double>(expected) << " vs " << static_cast<long double>(actual) << std::endl;
         return false;
     }
     return true;
 }
 
-void MinTest(int num_iter, int64_t max_ab, int64_t max_pq, int64_t max_lr) {
+void MinTest(int num_iter, __int128_t max_ab, __int128_t max_pq, __int128_t max_lr) {
     for (int i = 0; i < num_iter; ++i) {
         auto t = GenerateTest(max_ab, max_pq, max_lr);
+        // std::cout << t << std::endl;
         if (!MinCheck(t)) {
             std::cout << "OK is " << i << " cases;\n you tried your best!!!!!!" << std::endl;
             return;
         }
+       // std::cout << i + 1 << std::endl;
     }
 }
