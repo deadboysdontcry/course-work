@@ -6,6 +6,10 @@
 #include <iostream>
 
 
+
+
+namespace FMinTests {
+
 struct TestCase {
     int64_t A, B, P, Q, l, r;
     RoundingFunction g;
@@ -31,7 +35,7 @@ std::ostream& operator<<(std::ostream& os, TestCase t) {
     return os;
 }
 
-__int128_t MinHardSolve(__int128_t A, __int128_t B, __int128_t P, __int128_t Q, __int128_t l, __int128_t r, RoundingFunction g) {
+__int128_t HardSolve(__int128_t A, __int128_t B, __int128_t P, __int128_t Q, __int128_t l, __int128_t r, RoundingFunction g) {
     __int128_t min_val = std::numeric_limits<__int128_t>::max();
     for (auto i = l; i <= r; ++i) {
         __int128_t func_value = A * i + B * typeToDivFunc[g](i * P, Q);
@@ -40,11 +44,11 @@ __int128_t MinHardSolve(__int128_t A, __int128_t B, __int128_t P, __int128_t Q, 
     return min_val;
 }
 
-__int128_t MinExpected(TestCase t) {
-    return MinHardSolve(t.A, t.B, t.P, t.Q, t.l, t.r, t.g);
+__int128_t Expected(TestCase t) {
+    return HardSolve(t.A, t.B, t.P, t.Q, t.l, t.r, t.g);
 }
 
-__int128_t MinActual(TestCase t) {
+__int128_t Actual(TestCase t) {
     return FMinVal(t.A, t.B, t.P, t.Q, t.l, t.r, t.g);
 }
 
@@ -68,7 +72,7 @@ TestCase GenerateTest(int64_t max_ab, int64_t max_pq, int64_t max_lr) {
 }
 
 bool MinCheck(TestCase t) {
-    auto expected = MinExpected(t), actual = MinActual(t);
+    auto expected = Expected(t), actual = Actual(t);
     if (expected != actual) {
         std::cout << t << std::endl;
         std::cout << static_cast<long double>(expected) << " vs " << static_cast<long double>(actual) << std::endl;
@@ -77,7 +81,7 @@ bool MinCheck(TestCase t) {
     return true;
 }
 
-void MinTest(int num_iter, __int128_t max_ab, __int128_t max_pq, __int128_t max_lr) {
+void StressTest(int num_iter, __int128_t max_ab, __int128_t max_pq, __int128_t max_lr) {
     for (int i = 0; i < num_iter; ++i) {
         auto t = GenerateTest(max_ab, max_pq, max_lr);
         // std::cout << t << std::endl;
@@ -87,4 +91,5 @@ void MinTest(int num_iter, __int128_t max_ab, __int128_t max_pq, __int128_t max_
         }
        // std::cout << i + 1 << std::endl;
     }
+}
 }

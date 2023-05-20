@@ -4,11 +4,12 @@
 #include "task1/task1.h"
 #include <iostream>
 #include <string>
+#include <fstream>
 
 
 int main(int argc, char* argv[]) {
-    MinTest(1000000000, 100000000, 100000000, 200);
-    //std::cout << FMinVal(4, -4, 1, 4, 1, 3, RoundingFunction::kFloor);
-   // Task2HardTest(std::stoi(argv[1]), std::stoi(argv[2]), std::stoi(argv[3]));
-    return 0;
+   //APlusBMin::StressTest(10000, 20);
+   auto a = MinAPlusB(2, 1);
+   std::cout << a.first << " " << a.second << std::endl;
+   return 0;
 }
