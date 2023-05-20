@@ -27,7 +27,7 @@ const std::array<std::function<__int128_t(__int128_t, __int128_t)>, 4> typeToDiv
 
 
 // f(x) = Ax + Bg( Px / Q), x in [l, l + 1, ..., r], Q != 0
-__int128_t FMinVal(__int128_t A, __int128_t B, __int128_t P, __int128_t Q, __int128_t l, __int128_t r,
+int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r,
                 RoundingFunction g);
 
 std::pair<int64_t, int64_t> MinAPlusB(int64_t p, int64_t q);

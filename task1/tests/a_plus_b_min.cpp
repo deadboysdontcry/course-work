@@ -60,7 +60,6 @@ namespace APlusBMin {
         }
         for (int i = 0; i < num_iter; ++i) {
             auto t = GenerateTest(p_pool);
-            std::cout << t.p << " " << t.q << std::endl;
             if (!IsOk(t)) {
                 std::cout << t.p << " " << t.q << "\n";
                 std::cout << HardSolve(t).first << " " << HardSolve(t).second << " vs " << MinAPlusB(t.p, t.q).first << " " << MinAPlusB(t.p, t.q).second << std::endl;

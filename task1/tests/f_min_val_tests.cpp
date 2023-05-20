@@ -35,21 +35,26 @@ std::ostream& operator<<(std::ostream& os, TestCase t) {
     return os;
 }
 
-__int128_t HardSolve(__int128_t A, __int128_t B, __int128_t P, __int128_t Q, __int128_t l, __int128_t r, RoundingFunction g) {
+std::pair<int64_t, __int128_t> HardSolve(__int128_t A, __int128_t B, __int128_t P, __int128_t Q, __int128_t l, __int128_t r, RoundingFunction g) {
     __int128_t min_val = std::numeric_limits<__int128_t>::max();
+    int64_t pos;
     for (auto i = l; i <= r; ++i) {
         __int128_t func_value = A * i + B * typeToDivFunc[g](i * P, Q);
-        min_val = std::min(min_val, func_value);
+        if (func_value < min_val) {
+            min_val = func_value;
+            pos = i;
+        }
     }
-    return min_val;
+    return {pos, min_val};
 }
 
-__int128_t Expected(TestCase t) {
+std::pair<int64_t, __int128_t> Expected(TestCase t) {
     return HardSolve(t.A, t.B, t.P, t.Q, t.l, t.r, t.g);
 }
 
-__int128_t Actual(TestCase t) {
-    return FMinVal(t.A, t.B, t.P, t.Q, t.l, t.r, t.g);
+std::pair<int64_t, __int128_t> Actual(TestCase t) {
+    int64_t pos = FMinVal(t.A, t.B, t.P, t.Q, t.l, t.r, t.g);
+    return {pos, t.A * pos + t.B * typeToDivFunc[t.g](t.P * pos, t.Q)};
 }
 
 __int128_t MaybeNeg(__int128_t x) {
@@ -72,10 +77,11 @@ TestCase GenerateTest(int64_t max_ab, int64_t max_pq, int64_t max_lr) {
 }
 
 bool MinCheck(TestCase t) {
-    auto expected = Expected(t), actual = Actual(t);
-    if (expected != actual) {
+    auto expected = Expected(t);
+    auto actual = Actual(t);
+    if (expected.second != actual.second) {
         std::cout << t << std::endl;
-        std::cout << static_cast<long double>(expected) << " vs " << static_cast<long double>(actual) << std::endl;
+        std::cout << expected.first << " " << static_cast<long double>(expected.second) << " vs " << actual.first << " " << static_cast<int64_t>(actual.second) << std::endl;
         return false;
     }
     return true;

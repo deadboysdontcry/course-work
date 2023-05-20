@@ -8,8 +8,11 @@
 
 
 int main(int argc, char* argv[]) {
-   //APlusBMin::StressTest(10000, 20);
-   auto a = MinAPlusB(2, 1);
-   std::cout << a.first << " " << a.second << std::endl;
+   APlusBMin::StressTest(10000, 100000000);
+   //auto a = MinAPlusB(2, 1);
+   //std::cout << a.first << " " << a.second << std::endl;
+   //FMinTests::StressTest(1000000, 50000, 500000, 20000000);
+  // auto x = FMinVal(-2, 1, 1, 3, 2, 3, RoundingFunction::kFloor);
+  // std::cout << x;
    return 0;
 }
