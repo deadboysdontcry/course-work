@@ -1,10 +1,12 @@
 #include "task1.h"
 
+const int64_t bad_index = std::numeric_limits<int64_t>::max();
+
 // f(x) = Ax + Bg( Px / Q), x in [l, l + 1, ..., r], Q != 0
 int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r,
                 RoundingFunction g) {
     if (l > r) {
-        return 1e18;
+        return bad_index;
     }
 
     if (l == r) {
@@ -47,10 +49,12 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                         r_new--;
                     }
                 }
-                mid = FMinVal(A_new, B_new, P_new, Q_new, // -A_new
+                auto pos = FMinVal(A_new, B_new, P_new, Q_new, // -A_new
                                l_new + 1, r_new + 1, RoundingFunction::kCellar);
-                mid = mid == 1e18 ? mid : math::CellarQuotient(mid * P_new, Q_new);
-                m_val = mid == 1e18 ? mid : static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                if (pos != bad_index) {
+                    mid = math::CellarQuotient(pos * P_new, Q_new);
+                    m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                }
             } else {
                 {
                     const auto first = math::CeilQuotient(P_new * l_new, Q_new),
@@ -62,10 +66,12 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                         r_new--;
                     }
                 }
-                mid = FMinVal(A_new, B_new, P_new, Q_new,
+                auto pos = FMinVal(A_new, B_new, P_new, Q_new,
                                                            l_new, r_new, RoundingFunction::kCeil);
-                mid = mid == 1e18 ? mid : math::CeilQuotient(mid * P_new, Q_new);
-                m_val = mid == 1e18 ? mid : static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                if (pos != bad_index) {
+                    mid = math::CeilQuotient(pos * P_new, Q_new);
+                    m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                }
             }
         }
         break;
@@ -81,10 +87,14 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                         r_new--;
                     }
                 }
-                mid = FMinVal(A_new, B_new, P_new, Q_new,
+                auto pos = FMinVal(A_new, B_new, P_new, Q_new,
                                                            l_new, r_new, RoundingFunction::kFloor);
-                mid = mid == 1e18 ? mid : math::FloorQuotient(mid * P_new, Q_new);
-                m_val = mid == 1e18 ? mid : static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                if (pos != bad_index) {
+                    mid = math::FloorQuotient(pos * P_new, Q_new);
+                    m_val = static_cast<__int128_t>(B_new) * mid +
+                                                static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                }
+
             } else {
                 {
                     const auto first = math::LoftQuotient(P_new * (l_new - 1), Q_new),
@@ -96,10 +106,12 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                         r_new--;
                     }
                 }
-                mid = FMinVal(A_new, B_new, P_new, Q_new,
+                auto pos = FMinVal(A_new, B_new, P_new, Q_new,
                                l_new - 1, r_new - 1, RoundingFunction::kLoft);
-                mid = mid == 1e18 ? mid : math::LoftQuotient(mid * P_new, Q_new);
-                m_val = mid == 1e18 ? mid : static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                if (pos != bad_index) {
+                    mid = math::LoftQuotient(pos * P_new, Q_new);
+                    m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                }
             }
         }
         break;
@@ -115,10 +127,12 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                         r_new--;
                     }
                 }
-                mid = FMinVal(A_new, B_new, P_new, Q_new,
+                auto pos = FMinVal(A_new, B_new, P_new, Q_new,
                                                            l_new, r_new, RoundingFunction::kCellar);
-                mid = mid == 1e18 ? mid : math::CellarQuotient(mid * P_new, Q_new);
-                m_val = mid == 1e18 ? mid : static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                if (pos != bad_index) {
+                    mid = math::CellarQuotient(pos * P_new, Q_new);
+                    m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                }
             } else {
                 {
                     const auto first = math::CeilQuotient(P_new * (l_new - 1), Q_new),
@@ -130,10 +144,12 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                         r_new--;
                     }
                 }
-                mid = FMinVal(A_new, B_new, P_new, Q_new,
+                auto pos = FMinVal(A_new, B_new, P_new, Q_new,
                                l_new - 1, r_new - 1, RoundingFunction::kCeil);
-                mid = mid == 1e18 ? mid : math::CeilQuotient(mid * P_new, Q_new);
-                m_val = mid == 1e18 ? mid : static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                if (pos != bad_index) {
+                    mid = math::CeilQuotient(pos * P_new, Q_new);
+                    m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                }
             }
         }
         break;
@@ -149,10 +165,12 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                         r_new--;
                     }
                 }
-                mid = FMinVal(A_new, B_new, P_new, Q_new,
+                auto pos = FMinVal(A_new, B_new, P_new, Q_new,
                                l_new + 1, r_new + 1, RoundingFunction::kFloor);
-                mid = mid == 1e18 ? mid : math::FloorQuotient(mid * P_new, Q_new);
-                m_val = mid == 1e18 ? mid : static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                if (pos != bad_index) {
+                    mid = math::FloorQuotient(pos * P_new, Q_new);
+                    m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                }
             } else {
                 {
                     const auto first = math::LoftQuotient(P_new * l_new, Q_new),
@@ -164,10 +182,12 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                         r_new--;
                     }
                 }
-                mid = FMinVal(A_new, B_new, P_new, Q_new,
+                auto pos = FMinVal(A_new, B_new, P_new, Q_new,
                                                            l_new, r_new, RoundingFunction::kLoft);
-                mid = mid == 1e18 ? mid : math::LoftQuotient(mid * P_new, Q_new);
-                m_val = mid == 1e18 ? mid : static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                if (pos != bad_index) {
+                    mid = math::LoftQuotient(pos * P_new, Q_new);
+                    m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
+                }
             }
         }
     }
@@ -179,23 +199,6 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
         return mid;
     }
     return r;
-}
-
-long long bin_pow(long long base, long long p, int64_t mod) {
-    if (p == 1) {
-        return base;
-    }
-
-    if (p % 2 == 0) {
-        long long t = bin_pow(base, p / 2, mod);
-        return t * t % mod;
-    } else {
-        return bin_pow(base, p - 1, mod) * base % mod;
-    }
-}
-
-long long inverse_element(int64_t x, int64_t mod) {
-    return bin_pow(x, mod - 2, mod);
 }
 
 std::pair<int64_t, int64_t> MinAPlusB(int64_t p, int64_t q) {

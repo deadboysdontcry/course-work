@@ -8,7 +8,7 @@
 
 
 int main(int argc, char* argv[]) {
-   APlusBMin::StressTest(10000, 100000000);
+   APlusBMin::StressTest(1000000, 10000);
    //auto a = MinAPlusB(2, 1);
    //std::cout << a.first << " " << a.second << std::endl;
    //FMinTests::StressTest(1000000, 50000, 500000, 20000000);
