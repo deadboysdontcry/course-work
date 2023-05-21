@@ -10,7 +10,7 @@ namespace math {
         return Ceil(static_cast<double>(lhs) / rhs);
     }
 
-    int64_t Loft(double x) {
+    int64_t StrongCeil(double x) {
         int64_t cur = Ceil(x);
         if (static_cast<double>(cur) == x) {
             return cur + 1;
@@ -18,8 +18,8 @@ namespace math {
         return cur;
     }
 
-    int64_t LoftQuotient(int64_t lhs, int64_t rhs) {
-        return Loft(static_cast<double>(lhs) / rhs);
+    int64_t StrongCeilQuotient(int64_t lhs, int64_t rhs) {
+        return StrongCeil(static_cast<double>(lhs) / rhs);
     }
 
     int64_t Floor(double x) {
@@ -30,7 +30,7 @@ namespace math {
         return Floor(static_cast<double>(lhs) / rhs);
     }
 
-    int64_t Cellar(double x) {
+    int64_t StrongFloor(double x) {
         int64_t cur = Floor(x);
         if (static_cast<double>(cur) == x) {
             return cur - 1;
@@ -38,8 +38,8 @@ namespace math {
         return cur;
     }
 
-    int64_t CellarQuotient(int64_t lhs, int64_t rhs) {
-        return Cellar(static_cast<double>(lhs) / rhs);
+    int64_t StrongFloorQuotient(int64_t lhs, int64_t rhs) {
+        return StrongFloor(static_cast<double>(lhs) / rhs);
     }
 
 }

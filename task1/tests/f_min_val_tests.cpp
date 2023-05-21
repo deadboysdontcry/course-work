@@ -20,11 +20,11 @@ std::string GToString(RoundingFunction g) {
 
         case kCeil:
             return "ceil";
-        case kLoft:
+        case kStrongCeil:
             return "loft";
         case kFloor:
             return "floor";
-        case kCellar:
+        case kStrongFloor:
             return "cellar";
     }
 }
@@ -92,7 +92,7 @@ void StressTest(int num_iter, __int128_t max_ab, __int128_t max_pq, __int128_t m
         auto t = GenerateTest(max_ab, max_pq, max_lr);
         // std::cout << t << std::endl;
         if (!MinCheck(t)) {
-            std::cout << "OK is " << i << " cases;\n you tried your best!!!!!!" << std::endl;
+            std::cout << "OK is " << i << " cases;\nyou tried your best!!!!!!" << std::endl;
             return;
         }
        // std::cout << i + 1 << std::endl;

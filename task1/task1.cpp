@@ -40,8 +40,8 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
         case RoundingFunction::kFloor: {
             if (B_new < 0) {
                 {
-                    const auto first = math::CellarQuotient(P_new * (l_new + 1), Q_new),
-                         second = math::CellarQuotient(P_new * (r_new + 1), Q_new);
+                    const auto first = math::StrongFloorQuotient(P_new * (l_new + 1), Q_new),
+                         second = math::StrongFloorQuotient(P_new * (r_new + 1), Q_new);
                     if (first < l) {
                         l_new++;
                     }
@@ -50,9 +50,9 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                     }
                 }
                 auto pos = FMinVal(A_new, B_new, P_new, Q_new, // -A_new
-                               l_new + 1, r_new + 1, RoundingFunction::kCellar);
+                               l_new + 1, r_new + 1, RoundingFunction::kStrongFloor);
                 if (pos != bad_index) {
-                    mid = math::CellarQuotient(pos * P_new, Q_new);
+                    mid = math::StrongFloorQuotient(pos * P_new, Q_new);
                     m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
                 }
             } else {
@@ -97,8 +97,8 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
 
             } else {
                 {
-                    const auto first = math::LoftQuotient(P_new * (l_new - 1), Q_new),
-                            second = math::LoftQuotient(P_new * (r_new - 1), Q_new);
+                    const auto first = math::StrongCeilQuotient(P_new * (l_new - 1), Q_new),
+                            second = math::StrongCeilQuotient(P_new * (r_new - 1), Q_new);
                     if (first < l) {
                         l_new++;
                     }
@@ -107,19 +107,19 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                     }
                 }
                 auto pos = FMinVal(A_new, B_new, P_new, Q_new,
-                               l_new - 1, r_new - 1, RoundingFunction::kLoft);
+                               l_new - 1, r_new - 1, RoundingFunction::kStrongCeil);
                 if (pos != bad_index) {
-                    mid = math::LoftQuotient(pos * P_new, Q_new);
+                    mid = math::StrongCeilQuotient(pos * P_new, Q_new);
                     m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
                 }
             }
         }
         break;
-        case RoundingFunction::kLoft: {
+        case RoundingFunction::kStrongCeil: {
             if (B_new < 0) {
                 {
-                    const auto first = math::CellarQuotient(P_new * l_new, Q_new),
-                            second = math::CellarQuotient(P_new * r_new, Q_new);
+                    const auto first = math::StrongFloorQuotient(P_new * l_new, Q_new),
+                            second = math::StrongFloorQuotient(P_new * r_new, Q_new);
                     if (first < l) {
                         l_new++;
                     }
@@ -128,9 +128,9 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                     }
                 }
                 auto pos = FMinVal(A_new, B_new, P_new, Q_new,
-                                                           l_new, r_new, RoundingFunction::kCellar);
+                                                           l_new, r_new, RoundingFunction::kStrongFloor);
                 if (pos != bad_index) {
-                    mid = math::CellarQuotient(pos * P_new, Q_new);
+                    mid = math::StrongFloorQuotient(pos * P_new, Q_new);
                     m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
                 }
             } else {
@@ -153,7 +153,7 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
             }
         }
         break;
-        case RoundingFunction::kCellar: {
+        case RoundingFunction::kStrongFloor: {
             if (B_new < 0) {
                 {
                     const auto first = math::FloorQuotient(P_new * (l_new + 1), Q_new),
@@ -173,8 +173,8 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                 }
             } else {
                 {
-                    const auto first = math::LoftQuotient(P_new * l_new, Q_new),
-                            second = math::LoftQuotient(P_new * r_new, Q_new);
+                    const auto first = math::StrongCeilQuotient(P_new * l_new, Q_new),
+                            second = math::StrongCeilQuotient(P_new * r_new, Q_new);
                     if (first < l) {
                         l_new++;
                     }
@@ -183,9 +183,9 @@ int64_t FMinVal(int64_t A, int64_t B, int64_t P, int64_t Q, int64_t l, int64_t r
                     }
                 }
                 auto pos = FMinVal(A_new, B_new, P_new, Q_new,
-                                                           l_new, r_new, RoundingFunction::kLoft);
+                                                           l_new, r_new, RoundingFunction::kStrongCeil);
                 if (pos != bad_index) {
-                    mid = math::LoftQuotient(pos * P_new, Q_new);
+                    mid = math::StrongCeilQuotient(pos * P_new, Q_new);
                     m_val = static_cast<__int128_t>(B_new) * mid + static_cast<__int128_t>(B) * typeToDivFunc[g](Q_new * mid, Q);
                 }
             }
