@@ -22,7 +22,7 @@ static_assert(RoundingFunction::kCeil == 0);
 static_assert(RoundingFunction::kStrongCeil == 1);
 static_assert(RoundingFunction::kFloor == 2);
 static_assert(RoundingFunction::kStrongFloor == 3);
-const std::array<std::function<__int128_t(__int128_t, __int128_t)>, 4> typeToDivFunc{
+const std::array<std::function<int64_t(int64_t, int64_t)>, 4> typeToDivFunc{
         math::CeilQuotient, math::StrongCeilQuotient, math::FloorQuotient, math::StrongFloorQuotient};
 
 

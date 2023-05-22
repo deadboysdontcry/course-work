@@ -8,8 +8,8 @@
 
 
 int main(int argc, char* argv[]) {
-    Task2HardTest(1000000, 20000, 20000);
-   //APlusBMin::StressTest(1000000, 10000);
+   // Task2HardTest(1000000, 20000, 20000);
+   APlusBMin::StressTest(1000000, 10000);
    //auto a = MinAPlusB(2, 1);
    //std::cout << a.first << " " << a.second << std::endl;
    //FMinTests::StressTest(1000000, 50000, 500000, 20000000);
